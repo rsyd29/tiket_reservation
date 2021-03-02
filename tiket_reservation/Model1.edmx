@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="tiket_reservationModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="tiket_reservationModelStoreContainer">
+          <EntitySet Name="admin" EntityType="tiket_reservationModel.Store.admin" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="detil_pesan_tiket" EntityType="tiket_reservationModel.Store.detil_pesan_tiket" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="pajak_bandara" EntityType="tiket_reservationModel.Store.pajak_bandara" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="pembeli" EntityType="tiket_reservationModel.Store.pembeli" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="pembeli_validasi" EntityType="tiket_reservationModel.Store.pembeli_validasi" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="tiket_reservationModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tgl_pesan" EntityType="tiket_reservationModel.Store.tgl_pesan" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara" Association="tiket_reservationModel.Store.FK_detil_pesan_tiket_pajak_bandara">
+            <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+            <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara_tujuan" Association="tiket_reservationModel.Store.FK_detil_pesan_tiket_pajak_bandara_tujuan">
+            <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+            <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="id_admin" />
+          </Key>
+          <Property Name="id_admin" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_admin" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="email_admin" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="pass_admin" Type="varchar" Nullable="false" MaxLength="225" />
+        </EntityType>
+        <EntityType Name="detil_pesan_tiket">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="2" StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="harga_tiket" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="total_transfer" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="pilihan_bank" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="bandara_berangkat" Type="int" Nullable="false" />
+          <Property Name="bandara_tujuan" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="pajak_bandara">
+          <Key>
+            <PropertyRef Name="id_bandara" />
+          </Key>
+          <Property Name="id_bandara" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_bandara" Type="varchar" Nullable="false" MaxLength="225" />
+          <Property Name="pajak" Type="decimal" Nullable="false" Precision="10" />
+        </EntityType>
+        <EntityType Name="pembeli">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="3" StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="email_pembeli" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="password" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="hp_pembeli" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="gd_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="pembeli_validasi">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="email_pembeli" Type="varchar" Nullable="false" MaxLength="225" />
+          <Property Name="hp_pembeli" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="uang_transfer_validasi" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="pilihan_bank" Type="varchar" MaxLength="225" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tgl_pesan">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="3" StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="tgl_order" Type="varchar" Nullable="false" MaxLength="300" />
+        </EntityType>
+        <Association Name="FK_detil_pesan_tiket_pajak_bandara">
+          <End Role="pajak_bandara" Type="tiket_reservationModel.Store.pajak_bandara" Multiplicity="1" />
+          <End Role="detil_pesan_tiket" Type="tiket_reservationModel.Store.detil_pesan_tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pajak_bandara">
+              <PropertyRef Name="id_bandara" />
+            </Principal>
+            <Dependent Role="detil_pesan_tiket">
+              <PropertyRef Name="bandara_berangkat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_detil_pesan_tiket_pajak_bandara_tujuan">
+          <End Role="pajak_bandara" Type="tiket_reservationModel.Store.pajak_bandara" Multiplicity="1" />
+          <End Role="detil_pesan_tiket" Type="tiket_reservationModel.Store.detil_pesan_tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pajak_bandara">
+              <PropertyRef Name="id_bandara" />
+            </Principal>
+            <Dependent Role="detil_pesan_tiket">
+              <PropertyRef Name="bandara_tujuan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tiket_reservationModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="tiket_reservationEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="admins" EntityType="tiket_reservationModel.admin" />
+          <EntitySet Name="detil_pesan_tiket" EntityType="tiket_reservationModel.detil_pesan_tiket" />
+          <EntitySet Name="pajak_bandara" EntityType="tiket_reservationModel.pajak_bandara" />
+          <EntitySet Name="pembelis" EntityType="tiket_reservationModel.pembeli" />
+          <EntitySet Name="pembeli_validasi" EntityType="tiket_reservationModel.pembeli_validasi" />
+          <EntitySet Name="sysdiagrams" EntityType="tiket_reservationModel.sysdiagram" />
+          <EntitySet Name="tgl_pesan" EntityType="tiket_reservationModel.tgl_pesan" />
+          <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara" Association="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara">
+            <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+            <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara_tujuan" Association="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara_tujuan">
+            <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+            <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="id_admin" />
+          </Key>
+          <Property Name="id_admin" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_admin" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="email_admin" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="pass_admin" Type="String" Nullable="false" MaxLength="225" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="detil_pesan_tiket">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="String" Nullable="false" MaxLength="2" Unicode="false" FixedLength="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="harga_tiket" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="total_transfer" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="pilihan_bank" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="bandara_berangkat" Type="Int32" Nullable="false" />
+          <Property Name="bandara_tujuan" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="pajak_bandara" Relationship="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara" FromRole="detil_pesan_tiket" ToRole="pajak_bandara" />
+          <NavigationProperty Name="pajak_bandara1" Relationship="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara_tujuan" FromRole="detil_pesan_tiket" ToRole="pajak_bandara" />
+        </EntityType>
+        <EntityType Name="pajak_bandara">
+          <Key>
+            <PropertyRef Name="id_bandara" />
+          </Key>
+          <Property Name="id_bandara" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_bandara" Type="String" Nullable="false" MaxLength="225" Unicode="false" FixedLength="false" />
+          <Property Name="pajak" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <NavigationProperty Name="detil_pesan_tiket" Relationship="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara" FromRole="pajak_bandara" ToRole="detil_pesan_tiket" />
+          <NavigationProperty Name="detil_pesan_tiket1" Relationship="tiket_reservationModel.FK_detil_pesan_tiket_pajak_bandara_tujuan" FromRole="pajak_bandara" ToRole="detil_pesan_tiket" />
+        </EntityType>
+        <EntityType Name="pembeli">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="email_pembeli" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="hp_pembeli" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="gd_pembeli" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="pembeli_validasi">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="id_pembeli" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="email_pembeli" Type="String" Nullable="false" MaxLength="225" Unicode="false" FixedLength="false" />
+          <Property Name="hp_pembeli" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="uang_transfer_validasi" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="pilihan_bank" Type="String" MaxLength="225" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tgl_pesan">
+          <Key>
+            <PropertyRef Name="id_pembeli" />
+          </Key>
+          <Property Name="prefix" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="id_pembeli" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="nm_pembeli" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="tgl_order" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_detil_pesan_tiket_pajak_bandara">
+          <End Role="pajak_bandara" Type="tiket_reservationModel.pajak_bandara" Multiplicity="1" />
+          <End Role="detil_pesan_tiket" Type="tiket_reservationModel.detil_pesan_tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pajak_bandara">
+              <PropertyRef Name="id_bandara" />
+            </Principal>
+            <Dependent Role="detil_pesan_tiket">
+              <PropertyRef Name="bandara_berangkat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_detil_pesan_tiket_pajak_bandara_tujuan">
+          <End Role="pajak_bandara" Type="tiket_reservationModel.pajak_bandara" Multiplicity="1" />
+          <End Role="detil_pesan_tiket" Type="tiket_reservationModel.detil_pesan_tiket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pajak_bandara">
+              <PropertyRef Name="id_bandara" />
+            </Principal>
+            <Dependent Role="detil_pesan_tiket">
+              <PropertyRef Name="bandara_tujuan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="tiket_reservationModelStoreContainer" CdmEntityContainer="tiket_reservationEntities">
+          <EntitySetMapping Name="admins">
+            <EntityTypeMapping TypeName="tiket_reservationModel.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="id_admin" ColumnName="id_admin" />
+                <ScalarProperty Name="nm_admin" ColumnName="nm_admin" />
+                <ScalarProperty Name="email_admin" ColumnName="email_admin" />
+                <ScalarProperty Name="pass_admin" ColumnName="pass_admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="detil_pesan_tiket">
+            <EntityTypeMapping TypeName="tiket_reservationModel.detil_pesan_tiket">
+              <MappingFragment StoreEntitySet="detil_pesan_tiket">
+                <ScalarProperty Name="prefix" ColumnName="prefix" />
+                <ScalarProperty Name="id_pembeli" ColumnName="id_pembeli" />
+                <ScalarProperty Name="nm_pembeli" ColumnName="nm_pembeli" />
+                <ScalarProperty Name="harga_tiket" ColumnName="harga_tiket" />
+                <ScalarProperty Name="total_transfer" ColumnName="total_transfer" />
+                <ScalarProperty Name="pilihan_bank" ColumnName="pilihan_bank" />
+                <ScalarProperty Name="bandara_berangkat" ColumnName="bandara_berangkat" />
+                <ScalarProperty Name="bandara_tujuan" ColumnName="bandara_tujuan" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pajak_bandara">
+            <EntityTypeMapping TypeName="tiket_reservationModel.pajak_bandara">
+              <MappingFragment StoreEntitySet="pajak_bandara">
+                <ScalarProperty Name="id_bandara" ColumnName="id_bandara" />
+                <ScalarProperty Name="nm_bandara" ColumnName="nm_bandara" />
+                <ScalarProperty Name="pajak" ColumnName="pajak" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pembelis">
+            <EntityTypeMapping TypeName="tiket_reservationModel.pembeli">
+              <MappingFragment StoreEntitySet="pembeli">
+                <ScalarProperty Name="prefix" ColumnName="prefix" />
+                <ScalarProperty Name="id_pembeli" ColumnName="id_pembeli" />
+                <ScalarProperty Name="nm_pembeli" ColumnName="nm_pembeli" />
+                <ScalarProperty Name="email_pembeli" ColumnName="email_pembeli" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="hp_pembeli" ColumnName="hp_pembeli" />
+                <ScalarProperty Name="gd_pembeli" ColumnName="gd_pembeli" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pembeli_validasi">
+            <EntityTypeMapping TypeName="tiket_reservationModel.pembeli_validasi">
+              <MappingFragment StoreEntitySet="pembeli_validasi">
+                <ScalarProperty Name="id_pembeli" ColumnName="id_pembeli" />
+                <ScalarProperty Name="nm_pembeli" ColumnName="nm_pembeli" />
+                <ScalarProperty Name="email_pembeli" ColumnName="email_pembeli" />
+                <ScalarProperty Name="hp_pembeli" ColumnName="hp_pembeli" />
+                <ScalarProperty Name="uang_transfer_validasi" ColumnName="uang_transfer_validasi" />
+                <ScalarProperty Name="pilihan_bank" ColumnName="pilihan_bank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="tiket_reservationModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tgl_pesan">
+            <EntityTypeMapping TypeName="tiket_reservationModel.tgl_pesan">
+              <MappingFragment StoreEntitySet="tgl_pesan">
+                <ScalarProperty Name="prefix" ColumnName="prefix" />
+                <ScalarProperty Name="id_pembeli" ColumnName="id_pembeli" />
+                <ScalarProperty Name="nm_pembeli" ColumnName="nm_pembeli" />
+                <ScalarProperty Name="tgl_order" ColumnName="tgl_order" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

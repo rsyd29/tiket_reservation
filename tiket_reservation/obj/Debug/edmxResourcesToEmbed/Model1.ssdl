@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="tiket_reservationModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="tiket_reservationModelStoreContainer">
+    <EntitySet Name="admin" EntityType="tiket_reservationModel.Store.admin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="detil_pesan_tiket" EntityType="tiket_reservationModel.Store.detil_pesan_tiket" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="pajak_bandara" EntityType="tiket_reservationModel.Store.pajak_bandara" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="pembeli" EntityType="tiket_reservationModel.Store.pembeli" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="pembeli_validasi" EntityType="tiket_reservationModel.Store.pembeli_validasi" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="tiket_reservationModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tgl_pesan" EntityType="tiket_reservationModel.Store.tgl_pesan" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara" Association="tiket_reservationModel.Store.FK_detil_pesan_tiket_pajak_bandara">
+      <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+      <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+    </AssociationSet>
+    <AssociationSet Name="FK_detil_pesan_tiket_pajak_bandara_tujuan" Association="tiket_reservationModel.Store.FK_detil_pesan_tiket_pajak_bandara_tujuan">
+      <End Role="pajak_bandara" EntitySet="pajak_bandara" />
+      <End Role="detil_pesan_tiket" EntitySet="detil_pesan_tiket" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="admin">
+    <Key>
+      <PropertyRef Name="id_admin" />
+    </Key>
+    <Property Name="id_admin" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_admin" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="email_admin" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="pass_admin" Type="varchar" Nullable="false" MaxLength="225" />
+  </EntityType>
+  <EntityType Name="detil_pesan_tiket">
+    <Key>
+      <PropertyRef Name="id_pembeli" />
+    </Key>
+    <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="2" StoreGeneratedPattern="Computed" />
+    <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+    <Property Name="harga_tiket" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="total_transfer" Type="decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="pilihan_bank" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="bandara_berangkat" Type="int" Nullable="false" />
+    <Property Name="bandara_tujuan" Type="int" Nullable="false" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="pajak_bandara">
+    <Key>
+      <PropertyRef Name="id_bandara" />
+    </Key>
+    <Property Name="id_bandara" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_bandara" Type="varchar" Nullable="false" MaxLength="225" />
+    <Property Name="pajak" Type="decimal" Nullable="false" Precision="10" />
+  </EntityType>
+  <EntityType Name="pembeli">
+    <Key>
+      <PropertyRef Name="id_pembeli" />
+    </Key>
+    <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="3" StoreGeneratedPattern="Computed" />
+    <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+    <Property Name="email_pembeli" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="password" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="hp_pembeli" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="gd_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="pembeli_validasi">
+    <Key>
+      <PropertyRef Name="id_pembeli" />
+    </Key>
+    <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+    <Property Name="email_pembeli" Type="varchar" Nullable="false" MaxLength="225" />
+    <Property Name="hp_pembeli" Type="varchar" Nullable="false" MaxLength="255" />
+    <Property Name="uang_transfer_validasi" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="pilihan_bank" Type="varchar" MaxLength="225" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tgl_pesan">
+    <Key>
+      <PropertyRef Name="id_pembeli" />
+    </Key>
+    <Property Name="prefix" Type="varchar" Nullable="false" MaxLength="3" StoreGeneratedPattern="Computed" />
+    <Property Name="id_pembeli" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="nm_pembeli" Type="varchar" Nullable="false" MaxLength="40" />
+    <Property Name="tgl_order" Type="varchar" Nullable="false" MaxLength="300" />
+  </EntityType>
+  <Association Name="FK_detil_pesan_tiket_pajak_bandara">
+    <End Role="pajak_bandara" Type="tiket_reservationModel.Store.pajak_bandara" Multiplicity="1" />
+    <End Role="detil_pesan_tiket" Type="tiket_reservationModel.Store.detil_pesan_tiket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pajak_bandara">
+        <PropertyRef Name="id_bandara" />
+      </Principal>
+      <Dependent Role="detil_pesan_tiket">
+        <PropertyRef Name="bandara_berangkat" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_detil_pesan_tiket_pajak_bandara_tujuan">
+    <End Role="pajak_bandara" Type="tiket_reservationModel.Store.pajak_bandara" Multiplicity="1" />
+    <End Role="detil_pesan_tiket" Type="tiket_reservationModel.Store.detil_pesan_tiket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="pajak_bandara">
+        <PropertyRef Name="id_bandara" />
+      </Principal>
+      <Dependent Role="detil_pesan_tiket">
+        <PropertyRef Name="bandara_tujuan" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
