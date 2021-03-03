@@ -138,6 +138,40 @@ namespace tiket_reservation.Controllers
             return RedirectToAction("login_user", "Home");
         }
 
+        // untuk mendapatkan izin masuk ke halaman user
+        [HttpPost]
+        public ActionResult Login_user(pembeli postPembeli)
+        {
+
+            pembeli pb = db.pembelis.SingleOrDefault(u => u.email_pembeli ==
+            postPembeli.email_pembeli);
+
+            if (pb == null)
+            {
+                ViewBag.htmlError = "has-error";
+                ViewBag.errorMessage = "Username atau password anda salah.";
+                return View();
+            }
+
+            bool comparePassword =
+            PBKDF2Encription.VerifyHashedPassword(pb.password,
+            postPembeli.password);
+            if (postPembeli.email_pembeli == pb.email_pembeli &&
+            comparePassword)
+            {
+                Session["user"] = pb.nm_pembeli;
+                Session["email"] = pb.email_pembeli;
+                Session["id"] = pb.id_pembeli;
+                return RedirectToAction("dashboard", "User");
+            }
+            else
+            {
+                ViewBag.htmlError = "has-error";
+                ViewBag.errorMessage = "Username atau password anda salah";
+            }
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View();
